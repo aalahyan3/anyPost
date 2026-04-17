@@ -155,7 +155,7 @@ export default function FormDetailPage({
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-6">
+    <div className="flex flex-1 flex-col gap-6 md:p-6">
       <FormPageHeader
         form={form}
         onFormUpdated={(updatedForm) => setForm(updatedForm)}

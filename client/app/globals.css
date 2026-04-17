@@ -131,3 +131,34 @@
     @apply font-sans;
   }
 }
+
+
+
+
+#ThemeChangeButton::after {
+  content: "D";
+  width: 25px;
+  height: 25px;
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  line-height: 1;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 6px;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  border: 1px solid var(--border);
+  
+}
+
+@media (max-width: 639px) {
+  #ThemeChangeButton::after {
+    display: none;
+  }
+}

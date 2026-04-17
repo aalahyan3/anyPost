@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react"
 import { SubmissionType } from "@/app/lib/types"
 import { api } from "@/app/lib/api"
-import { Inbox, Database, Search, Download, BarChart3, Clock, KeySquare, ArrowLeft, ArrowRight, Mail, SendHorizonal, Zap, Rocket, Key, RefreshCcw } from "lucide-react"
+import { Inbox, Database, Search, Download, BarChart3, Clock, KeySquare, ArrowLeft, ArrowRight, Mail, SendHorizonal, Zap, Rocket, Key, RefreshCcw, CurlyBraces } from "lucide-react"
 import { Modal } from "@/components/ui/modal"
 import { Button } from "@/components/ui/button"
 import { SubmissionsChart } from "./submissions-chart"
@@ -341,13 +341,15 @@ export function SubmissionsTable({ projectId, formId }: { projectId: string; for
                       if (typeof val === "object") {
                         return (
                           <td key={col} className="px-6 py-3.5 whitespace-nowrap">
-                            <button
+                            <Button
                               onClick={() => setSelectedJson({ title: col, data: val })}
-                              className="inline-flex items-center gap-1.5 rounded-md border border-primary/20 bg-primary/5 px-2.5 py-1 text-[11px] font-medium hover:bg-primary/10 transition-colors text-primary"
+                              variant={"outline"}
+                              size={"sm"}
+                              className="border-primary/70! text-primary/80"
                             >
-                              <Database className="size-3" />
-                              View Data
-                            </button>
+                              <CurlyBraces className="size-3" />
+                              
+                            </Button>
                           </td>
                         )
                       }

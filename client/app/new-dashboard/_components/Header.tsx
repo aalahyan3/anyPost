@@ -109,7 +109,7 @@ function Header() {
             <span className="animate-pulse text-sm">loading...</span>
           </div>
         ) : (
-          <div className="h-12 flex min-w-0 flex-1 items-center gap-3 rounded-lg bg-muted px-3 py-2 text-foreground sm:flex-none">
+          <div className="h-12 flex min-w-0 flex-1 justify-between items-center gap-3 rounded-lg bg-muted px-3 py-2 text-foreground sm:flex-none">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary font-medium text-primary-foreground">
               {user?.name?.at(0)}
             </div>

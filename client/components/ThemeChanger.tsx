@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 function ThemeChanger({className} : {className?: string}) {
     const {resolvedTheme, setTheme} = useTheme();
   return (
-    <Button className={cn(className)} variant={"outline"} 
+    <Button className={cn(className, "relative")} variant={"outline"}  id="ThemeChangeButton"
     onClick={()=> 
         setTheme(resolvedTheme === "dark" ? "light" : "dark")
     }>
