@@ -1,7 +1,7 @@
 
 "use client"
 import React, { useEffect } from 'react'
-import SideBar from './_componenet/SideBar'
+import SideBar from './_components/SideBar'
 import { useParams } from 'next/navigation'
 import { useProjects } from '@/context/projects-provider';
 import { useRouter } from 'next/navigation';

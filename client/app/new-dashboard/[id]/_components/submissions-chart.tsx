@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react"
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts"
-import {api} from "@/app/lib/api"
+import { api } from "@/app/lib/api"
 
 type TrendPoint = {
   date: string

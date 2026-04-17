@@ -3,7 +3,7 @@
 
 import { useForm } from '@/context/form-context';
 import { AlertCircle, FilePlus } from 'lucide-react';
-import FormDetailPage from './_componenet/FormDetailPage';
+import FormDetailPage from './_components/FormDetailPage';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
 function ProjectPage() {

@@ -17,7 +17,7 @@ import { api } from "@/app/lib/api"
 import { FormType } from "@/app/lib/types"
 import { validateName, extractFieldErrors } from "@/app/lib/utils"
 import { useRouter } from "next/navigation"
-import { SubmissionsTable } from "./submissions-table"
+import { SubmissionsOverview } from "./submissions-overview"
 import { useForm } from "@/context/form-context"
 import { Button } from "@/components/ui/button"
 import IntegrationInstructions from "./IntegrationInstructions"
@@ -179,7 +179,7 @@ export default function FormDetailPage({
       {/* ── Integration Section ── */}
       <IntegrationInstructions formId={form.id} />
 
-      <SubmissionsTable projectId={id!} formId={formId} />
+      <SubmissionsOverview projectId={id!} formId={formId} />
 
       {/* ── Edit Form Modal ── */}
       
