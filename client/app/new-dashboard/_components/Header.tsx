@@ -11,6 +11,7 @@ import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import EditProjectDialog from './EditProjectDialog';
 import CreateProjectDialog from './CreateProjectDialog';
+import ThemeChanger from '@/components/ThemeChanger';
 
 function Header() {
     const projects = useProjects();
@@ -77,6 +78,7 @@ function Header() {
             </div>
 
             <div className='flex w-full items-center justify-between gap-2 text-secondary-foreground sm:w-auto sm:justify-end'>
+                <ThemeChanger className="h-12 w-12 shrink-0 rounded-lg p-0 flex items-center justify-center" />
                 {loading ? (
                     <div className="flex h-12 items-center">
                         <span className="text-sm animate-pulse">loading...</span>
