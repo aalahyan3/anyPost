@@ -26,7 +26,10 @@ export function SubmissionsTable({
   const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
   const [totalElements, setTotalElements] = useState(0)
-  const size = 20
+  const [pageSize, setPageSize] = useState(20)
+  const [query, setQuery] = useState("")
+  const [orderBy, setOrderBy] = useState<string | null>("createdAt")
+  const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("desc") // default to newest first
 
   const [selectedJson, setSelectedJson] = useState<{ title: string; data: any } | null>(null)
 
@@ -41,13 +44,15 @@ export function SubmissionsTable({
     setError(null)
 
     api
-      .get(`/api/v1/projects/${projectId}/forms/${formId}/submissions?size=${size}&page=${page}`)
+      .get(`/api/v1/projects/${projectId}/forms/${formId}/submissions?size=${pageSize}&page=${page}`)
       .then((res) => {
         if (!mounted) return
 
         const apiData = res.data?.data ?? res.data
 
         if (apiData?.content !== undefined) {
+          console.log("API returned paginated response:", apiData);
+          
           setSubmissions(Array.isArray(apiData.content) ? apiData.content : [])
           setTotalElements(apiData.totalElements || 0)
           setTotalPages(apiData.totalPages || 1)
@@ -69,7 +74,7 @@ export function SubmissionsTable({
     return () => {
       mounted = false
     }
-  }, [projectId, formId, page, size, refreshToken])
+  }, [projectId, formId, page, pageSize, refreshToken])
 
   const allColumns = metadata?.fields ?? []
 
@@ -118,6 +123,10 @@ export function SubmissionsTable({
         </h2>
       </div>
 
+      {/* <div>
+        this will containe code for filtering
+      </div> */}
+
       <div className="rounded-xl border bg-card overflow-hidden">
         <div className="overflow-x-auto">
           {submissions.length === 0 ? (
@@ -158,8 +167,8 @@ export function SubmissionsTable({
 
                       if (value === undefined || value === null) {
                         return (
-                          <td key={column} className="px-6 py-3.5 text-muted-foreground/60 text-xs font-mono italic">
-                            N/A
+                          <td key={column} className="px-6 py-3.5 text-muted-foreground/60 text-xs font-mono  italic">
+                            -
                           </td>
                         )
                       }

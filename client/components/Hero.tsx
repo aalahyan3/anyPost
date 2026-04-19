@@ -2,6 +2,7 @@ import { ArrowRight, BookOpenText } from "lucide-react"
 import Image from "next/image"
 import React from "react"
 import { Button } from "./ui/button"
+import Link from "next/link"
 
 function Hero() {
   return (
@@ -39,15 +40,18 @@ function Hero() {
         <div className="flex flex-wrap items-center gap-3">
           <Button
             variant="secondary"
-            className="h-10 gap-2 rounded-xl px-5 text-sm"
+            className="h-10 gap-2 rounded-xl  p-6 text-sm"
             disabled
           >
             <BookOpenText className="h-4 w-4" />
             Read docs
           </Button>
-          <Button className="h-10 gap-2 rounded-xl px-5 text-sm">
-            Get started
-            <ArrowRight className="h-4 w-4" />
+          <Button className="h-10 gap-2 rounded-xl  p-6 text-sm" asChild>
+            <Link href={"/new-dashboard"}>
+
+              Get started
+              <ArrowRight className="h-6 w-6" />
+            </Link>
           </Button>
         </div>
       </div>
@@ -66,9 +70,8 @@ function Hero() {
                 POST
               </span>
               <span className="font-mono text-[11px] text-white/30">
-                https://api.anypost.dev/f/
+                https://api.anypost.dev/f/ff_1234567890abcdef
               </span>
-              <span className="font-mono text-[11px] text-white/55">ff_daddfdf</span>
             </div>
           </div>
 
