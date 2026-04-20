@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { SubmissionType } from "@/app/lib/types"
 import { api } from "@/app/lib/api"
-import { ArrowLeft, ArrowRight, CurlyBraces, Inbox, RefreshCcw, ServerCrash, TrashIcon } from "lucide-react"
+import { ArrowLeft, ArrowRight, CurlyBraces, Inbox, RefreshCcw, ServerCrash, TrashIcon, X } from "lucide-react"
 import { Modal } from "@/components/ui/modal"
 import { Button } from "@/components/ui/button"
 import type { FormMetadata } from "./submissions-overview"
@@ -66,6 +66,7 @@ export function SubmissionsTable({
 
 
   const [selectedSubmissions, setSelectedSubmissions] = useState<string[]>([])
+  const [deleting, setDeleting] = useState(false);
 
   function addToSelectedSubmissions(id: string) {
     setSelectedSubmissions((prev) => [...prev, id])
@@ -87,6 +88,7 @@ export function SubmissionsTable({
 
   async function handleSelectionDeletion() {
     try {
+      setDeleting(true)
       await api.delete(`/api/v1/projects/${projectId}/forms/${formId}/submissions`, {
         data: {
           ids: selectedSubmissions
@@ -100,6 +102,8 @@ export function SubmissionsTable({
       console.log(error?.response?.data?.message);
 
       toast.error(error?.response?.data?.message || "Failed to delete submissions")
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -228,13 +232,7 @@ export function SubmissionsTable({
           </Select>
         </div>
 
-        {
-          selectedSubmissions.length > 0 && (
-            <Button variant={"destructive"} onClick={handleSelectionDeletion}>
-              delete all ({selectedSubmissions.length})
-            </Button>
-          )
-        }
+
       </div>
 
       <div className="rounded-xl border bg-card overflow-hidden">
@@ -253,7 +251,7 @@ export function SubmissionsTable({
             <table className="w-full text-sm text-left">
               <thead className="bg-muted/50 text-muted-foreground font-medium border-b text-xs uppercase tracking-wider">
                 <tr >
-                  <th className="px-6 py-4 whitespace-nowrap"> <Input className="text-destructive/70" type="checkbox" onChange={() => selectAllSubmissions()} /> </th>
+                  <th className="px-6 py-4 whitespace-nowrap"> <Input className="text-destructive/70  block w-6 mx-auto" type="checkbox" onChange={() => selectAllSubmissions()} checked={selectedSubmissions.length === submissions.length} /> </th>
                   <th className="px-6 py-4 whitespace-nowrap">Received</th>
                   {allColumns.map((column) => (
                     <th key={column} className="px-6 py-4 whitespace-nowrap">
@@ -278,7 +276,7 @@ export function SubmissionsTable({
                         } else {
                           removeFromSelectedSubmissions(submission.id)
                         }
-                      }} className="text-destructive/70" type="checkbox" />
+                      }} className="text-destructive/70  block w-6 mx-auto" type="checkbox" />
                     </td>
                     <td className="px-6 py-3.5 font-medium whitespace-nowrap text-xs">
                       {new Date(submission.createdAt).toLocaleDateString(undefined, {
@@ -355,6 +353,36 @@ export function SubmissionsTable({
           </div>
         </div>
       )}
+
+      {
+        selectedSubmissions.length > 0 && (
+          <div
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4 fade-in duration-300"
+          >
+            <div className="relative bg-background/80 backdrop-blur-xl border border-border/50 px-6 py-4 rounded-2xl  flex items-center gap-5">
+              <div className="flex items-center gap-2.5">
+                <span className="relative flex size-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-destructive/60" />
+                  <span className="relative inline-flex size-2.5 rounded-full bg-destructive" />
+                </span>
+                <p className="text-sm font-medium text-foreground">
+                  <span className="font-bold tabular-nums">{selectedSubmissions.length}</span>
+                  <span className="text-muted-foreground ml-1">selected</span>
+                </p>
+              </div>
+              <div className="w-px h-6 bg-border/60" />
+              <div className="flex items-center gap-2">
+                <Button disabled={deleting} onClick={() => setSelectedSubmissions([])} variant={"ghost"} size={"sm"} className="text-muted-foreground hover:text-foreground">
+                  <X className="size-3.5" /> Cancel
+                </Button>
+                <Button disabled={deleting} onClick={handleSelectionDeletion} variant={"destructive"} size={"sm"} className="shadow-[0_0_15px_-3px_rgba(239,68,68,0.4)]">
+                  <TrashIcon className="size-3.5" />{deleting ? "Deleting..." : "Delete All"}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )
+      }
 
     </>
   )
