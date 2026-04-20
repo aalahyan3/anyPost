@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import React from 'react'
 import { ArrowRight } from 'lucide-react'
+import { Button } from './ui/button'
 
 const links = [
-  { label: 'Why Donation?', href: '#' },
-  { label: 'Contributing', href: '#' },
-  { label: 'Contact', href: '#' },
+  { label: 'Login', href: '/login' },
+  { label: 'Create Project', href: '/new-dashboard' },
+  { label: 'Contribute', href: 'https://github.com/aalahyan3/anyPost' },
+  { label: 'Docs', href: '#' }
 ]
 
 function Footer() {
@@ -29,17 +31,20 @@ function Footer() {
 
         {/* Subtext */}
         <p className="mb-7 text-sm text-[#f5f0e8]/40">
-          Join 15+ developers building amazing forms with AnyPost.
+          Join n+ developers building amazing forms with AnyPost.
         </p>
 
         {/* CTA button */}
-        <a
-          href="#"
-          className="group inline-flex items-center gap-2 rounded-full border border-[#f5f0e8]/15 bg-[#f5f0e8]/[0.06] px-5 py-2.5 text-sm font-medium text-[#f5f0e8] transition-colors hover:border-[#f5f0e8]/30 hover:bg-[#f5f0e8]/10"
-        >
-          Start for free
-          <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
-        </a>
+        <Button asChild className='p-6! rounded-xl' >
+          <Link
+            href="/new-dashboard"
+            className="group inline-flex items-center gap-2 rounded-full border border-[#f5f0e8]/15 bg-[#f5f0e8]/[0.06] px-5 py-2.5 text-sm font-medium text-[#f5f0e8] transition-colors hover:border-[#f5f0e8]/30 hover:bg-[#f5f0e8]/10"
+          >
+            Start for free
+            <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+          </Link>
+
+        </Button>
 
 
         <div
@@ -51,7 +56,7 @@ function Footer() {
         <div className="flex flex-wrap items-start justify-between gap-10">
 
           {/* Brand */}
-          <div>
+          <div >
             <p className="mb-2 font-serif text-lg tracking-tight">
               Any<span className="italic opacity-35">Post</span>
             </p>
@@ -62,10 +67,8 @@ function Footer() {
             </p>
           </div>
 
-          <div>
-            <p className="mb-4 font-mono text-[0.63rem] uppercase tracking-[0.14em] text-[#f5f0e8]/22">
-              Useful links
-            </p>
+          <div className=' md:p-6 md:px-16'>
+          
             <ul className="flex flex-col gap-2.5">
               {links.map((link) => (
                 <li key={link.label}>

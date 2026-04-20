@@ -64,7 +64,7 @@ function SideBar({
   }
 
   return (
-    <aside className={cn("flex flex-col bg-sidebar md:h-full rounded-xl m-10 border", className)}>
+    <aside className={cn("flex flex-col bg-sidebar md:h-full mt-10 rounded-xl md:m-10  border", className)}>
       {/* Header */}
       <div className="border-b border-border/60 px-4 py-4 md:py-5">
         <Dialog open={openCreateModal} onOpenChange={setOpenCreateModal}>

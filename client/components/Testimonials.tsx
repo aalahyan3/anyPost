@@ -11,7 +11,7 @@ const companies = [
 
 function Testimonials() {
   return (
-    <section className="w-full py-10 bg-muted rounded-xl">
+    <section className="w-full py-10 bg-muted md:rounded-xl">
       <p
         style={{
           fontFamily: "'DM Mono', 'Fira Mono', monospace",

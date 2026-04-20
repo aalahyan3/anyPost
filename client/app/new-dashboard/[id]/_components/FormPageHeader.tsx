@@ -173,7 +173,7 @@ function FormPageHeader({
           </div>
         </div>
 
-        <div className="mt-5 flex items-center gap-3 border-y py-4 text-sm text-muted-foreground">
+        <div className="mt-5 max-md:hidden flex items-center gap-3 border-y py-4 text-sm text-muted-foreground">
           <div className="rounded-full border bg-accent px-2.5 py-1 font-mono text-xs text-foreground">
             Form id: {form.id}
           </div>
