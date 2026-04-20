@@ -13,7 +13,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!loading && !user) {
       const query = searchParams.toString()
-      const nextPath = `${pathname}${query ? `?${query}` : ""}&guard=authguard`
+      const nextPath = `${pathname}?${query ? `${query}&` : ""}guard=authguard`
       router.replace(`/login?next=${encodeURIComponent(nextPath)}`)
     }
   }, [user, loading, router, pathname, searchParams])

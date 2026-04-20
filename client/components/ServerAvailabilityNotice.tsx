@@ -1,21 +1,45 @@
+"use client"
+
+
 import axios from 'axios'
-import React from 'react'
+import { ServerCrash } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 
-async function ServerAvailabilityNotice() {
+function ServerAvailabilityNotice() {
+  const [available, setAvailable] = useState<boolean | null>(null)
 
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/health`);
+  useEffect(() => {
+    let mounted = true
+    const check = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/health`)
+        if (!mounted) return
+        setAvailable(res.status === 200)
+      } catch (e) {
+        if (!mounted) return
+        setAvailable(false)
+      }
+    }
+    check()
+    return () => {
+      mounted = false
+    }
+  }, [])
 
-  if (res.status !== 200) {
+  if (available === null) return null
+  if (available === false) {
     return (
-      <div className='bg-amber-500/10 border border-amber-500/30 text-amber-500 rounded-lg p-4 mt-2 mb-6 text-center text-sm'>
-        The server is not available for the moment. I'm so sorry about that
+      <div
+        role="status"
+        aria-live="polite"
+        className="bg-amber-500/10 font-mono uppercase border-amber-500/30 text-amber-500 rounded-lg p-2 mt-2  text-center text-sm border-dotted border-2"
+      >
+        The server is not available for the moment. I'm so sorry about that 🙏
       </div>
     )
   }
 
-  return null;
-
-
+  return null
 }
 
 export default ServerAvailabilityNotice

@@ -3,6 +3,7 @@ import React from 'react'
 import { Button } from './ui/button'
 import { ArrowRight, Code2, Heart } from 'lucide-react'
 import Logo from './Logo'
+import ServerAvailabilityNotice from './ServerAvailabilityNotice'
 
 function Header() {
     return (
@@ -27,6 +28,7 @@ function Header() {
                     </Button>
                 </div>
             </div>
+            <ServerAvailabilityNotice />
         </header>
     )
 }

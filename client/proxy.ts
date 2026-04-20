@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
 
   const token = (await cookies()).get("jwt")?.value;
 
-  console.log("token");
+  // console.log("token");
 
   if (!publicRoutes.includes(path) && !token) {
     console.log("redirecting..");
