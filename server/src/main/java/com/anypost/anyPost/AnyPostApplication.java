@@ -14,5 +14,4 @@ public class AnyPostApplication {
         Locale.setDefault(Locale.ENGLISH);
         SpringApplication.run(AnyPostApplication.class, args);
 	}
-
 }

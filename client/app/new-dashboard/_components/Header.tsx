@@ -36,7 +36,7 @@ function Header() {
     return (
         <div className='flex flex-col gap-4 border-b bg-sidebar px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between'>
             <div className='flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:w-auto'>
-                {currentproject &&  <Select
+                {currentproject && <Select
                     value={currentproject || undefined}
                     onValueChange={(value) => {
                         router.push(`/new-dashboard/${value}`);
@@ -84,21 +84,41 @@ function Header() {
                         <span className="text-sm animate-pulse">loading...</span>
                     </div>
                 ) : (
-                    <div className='flex min-w-0 flex-1 items-center gap-3 rounded-lg bg-muted px-3 py-2 text-foreground sm:flex-none'>
-                        <div className='flex items-center justify-center h-8 w-8 rounded-full bg-primary text-primary-foreground font-medium'>
-                            {user?.name?.at(0)}
-                        </div>
-                        <span className="min-w-0 truncate text-sm">{user?.email}</span>
-                    </div>
+                    <div className="flex h-12 w-full max-w-sm items-center gap-3 rounded-xl border border-border bg-card/50 p-1.5 pr-2 shadow-sm transition-colors hover:bg-card sm:w-fit">
+  {/* Avatar - High Contrast */}
+  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground text-xs font-bold ring-1 ring-primary/20">
+    {user?.name?.at(0)?.toUpperCase()}
+  </div>
+
+  {/* Info Section - Improved Truncation */}
+  <div className="flex min-w-0 flex-1 flex-col leading-tight sm:flex-none sm:min-w-[120px]">
+    <span className="truncate text-sm font-medium text-foreground">
+      {user?.name || "User"}
+    </span>
+    <span className="truncate text-[11px] text-muted-foreground">
+      {user?.email}
+    </span>
+  </div>
+
+  {/* Logout Button - Consistent with your UI preference */}
+  <Button
+    variant="ghost"
+    size="icon"
+    onClick={() => logout()}
+    className="h-8 w-8 shrink-0 rounded-lg text-muted-foreground transition-all hover:bg-destructive/10 hover:text-destructive"
+  >
+    <LogOut className="h-4 w-4" />
+  </Button>
+</div>
                 )}
 
-                <Button
+                {/* <Button
                     variant="destructive"
                     onClick={() => logout()}
                     className='h-12 w-12 shrink-0 rounded-lg p-0 flex items-center justify-center'
                 >
                     <LogOut className='w-5 h-5' />
-                </Button>
+                </Button> */}
             </div>
 
         </div>

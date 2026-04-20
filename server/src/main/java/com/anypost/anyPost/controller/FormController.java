@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -98,7 +99,7 @@ public class FormController {
                                                                                @RequestParam(defaultValue = "10")   int size
                                                                                ){
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         Page<Submission>    submissions = formService.getAllFormSubmissions(user.getId(), projectId, formId, pageable);
 
@@ -131,8 +132,6 @@ public class FormController {
                                                                            @PathVariable("form_id") String formId)
     {
         StreamingResponseBody body = oStream -> formService.exportSubmissionsCsv(user.getId(), projectId, formId, oStream);
-
-        // TODO: add headers
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=submissions_" + formId  +".csv")
                 .contentType(MediaType.parseMediaType("text/csv"))
