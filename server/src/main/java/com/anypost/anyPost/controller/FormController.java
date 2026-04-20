@@ -2,6 +2,7 @@ package com.anypost.anyPost.controller;
 
 import com.anypost.anyPost.dto.request.forms.CreateFormRequest;
 import com.anypost.anyPost.dto.request.forms.PatchFormRequest;
+import com.anypost.anyPost.dto.request.submission.BulkDeleteRequest;
 import com.anypost.anyPost.dto.response.ApiResponse;
 import com.anypost.anyPost.dto.response.SubmissionMetadataResponse;
 import com.anypost.anyPost.dto.response.SubmissionTrendResponse;
@@ -96,10 +97,12 @@ public class FormController {
                                                                                @PathVariable("project_id") String projectId,
                                                                                @PathVariable("form_id") String formId,
                                                                                @RequestParam(defaultValue = "0")    int page,
-                                                                               @RequestParam(defaultValue = "10")   int size
+                                                                               @RequestParam(defaultValue = "10")   int size,
+                                                                               @RequestParam(defaultValue = "desc") String sort
                                                                                ){
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Sort.Direction direction = Sort.Direction.fromString(sort);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "createdAt"));
 
         Page<Submission>    submissions = formService.getAllFormSubmissions(user.getId(), projectId, formId, pageable);
 
@@ -136,5 +139,17 @@ public class FormController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=submissions_" + formId  +".csv")
                 .contentType(MediaType.parseMediaType("text/csv"))
                 .body(body);
+    }
+
+    // bulk delete
+    @DeleteMapping("/{project_id}/forms/{form_id}/submissions")
+    public ResponseEntity<ApiResponse<Void>>    bulkDelete(@AuthenticationPrincipal UserDetailsImpl user,
+                                                           @PathVariable("project_id") String projectId,
+                                                           @PathVariable("form_id") String formId,
+                                                           @Valid @RequestBody BulkDeleteRequest request)
+    {
+        formService.bulkDeleteSubmissions(user.getId(), projectId, formId, request);
+
+        return ResponseEntity.ok().body(ApiResponse.success("submissions deleted successfully", null));
     }
 }

@@ -2,6 +2,7 @@ package com.anypost.anyPost.service;
 
 import com.anypost.anyPost.dto.request.forms.CreateFormRequest;
 import com.anypost.anyPost.dto.request.forms.PatchFormRequest;
+import com.anypost.anyPost.dto.request.submission.BulkDeleteRequest;
 import com.anypost.anyPost.dto.response.SubmissionMetadataResponse;
 import com.anypost.anyPost.dto.response.SubmissionTrendResponse;
 import com.anypost.anyPost.entity.Form;
@@ -214,4 +215,13 @@ public class FormService {
             throw new RuntimeException(e);
         }
     }
+
+
+    @Transactional
+    public void bulkDeleteSubmissions(String userId, String projectId, String formId, BulkDeleteRequest request){
+        getFormById(projectId, userId, formId);
+
+        submissionService.deleteByFormIdandIds(formId, request.ids());
+    }
+
 }

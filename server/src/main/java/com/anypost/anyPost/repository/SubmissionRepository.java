@@ -32,4 +32,7 @@ public interface SubmissionRepository extends MongoRepository<Submission, String
             LocalDateTime start,
             LocalDateTime end
     );
+
+
+    List<Submission>    findByFormIdAndIdIn(String formId, List<String> ids);
 }

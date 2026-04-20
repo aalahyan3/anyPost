@@ -99,4 +99,10 @@ public class SubmissionService {
     ) {
         return submissionRepository.findByFormIdAndCreatedAtBetween(formId, start, end);
     }
+
+
+    public void deleteByFormIdandIds(String formId, List<String> ids){
+        List<Submission> submissions = submissionRepository.findByFormIdAndIdIn(formId, ids);
+        submissionRepository.deleteAll(submissions);
+    }
 }
