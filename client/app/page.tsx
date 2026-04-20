@@ -13,7 +13,7 @@ export default function Page() {
     <div className="flex min-h-screen flex-col">
 
       <main className="flex-1 w-full mx-auto md:px-4 max-w-7xl">
-        {/* <ServerAvailabilityNotice/> */}
+        <ServerAvailabilityNotice/>
 
         <Header />
         <Hero />
