@@ -23,13 +23,13 @@ function LoginForm() {
 
   const searchParams = useSearchParams();
 
-  const redirectTo = useMemo(()=> {
+  const redirectTo = useMemo(() => {
     const next = searchParams.get("next");
 
     if (!next || typeof next !== "string" || !next.startsWith("/") || next.startsWith("//")) {
-      return "/home";
+      return "/dashboard";
     }
-    
+
     return next;
   }, [searchParams])
 
@@ -62,11 +62,10 @@ function LoginForm() {
           ref={alertRef}
           role="alert"
           aria-live="polite"
-          className={`flex animate-in items-start gap-3 rounded-lg border px-4 py-3 text-sm duration-300 fade-in slide-in-from-top-1 ${
-            state.success
+          className={`flex animate-in items-start gap-3 rounded-lg border px-4 py-3 text-sm duration-300 fade-in slide-in-from-top-1 ${state.success
               ? "border-green-200 bg-green-50 text-green-800 dark:border-green-800 dark:bg-green-950/40 dark:text-green-300"
               : "border-red-200 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-300"
-          } `}
+            } `}
         >
           {/* Icon */}
           <span className="mt-0.5 shrink-0">

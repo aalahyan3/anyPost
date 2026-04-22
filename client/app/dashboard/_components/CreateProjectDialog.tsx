@@ -30,7 +30,7 @@ function CreateProjectDialog({ addProject, onClose }: CreateProjectDialogProps) 
             setName("");
             setInputError(null);
             onClose(); // Close on success
-            router.push(`/new-dashboard/${newProject.id}`);
+            router.push(`/dashboard/${newProject.id}`);
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 const apiMessage =

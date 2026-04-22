@@ -52,7 +52,7 @@ function EditProjectDialog({ project, updateProject, deleteProject, onClose }: E
             toast.success("Project deleted successfully");
             setShowDelete(false);
             onClose();
-            router.push("/new-dashboard");
+            router.push("/dashboard");
         } catch (error) {
             toast.error("Error deleting project");
         }

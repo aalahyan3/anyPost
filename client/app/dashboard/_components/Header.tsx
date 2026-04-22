@@ -37,43 +37,43 @@ function Header() {
       !currentproject
     ) {
       console.log("redirecting to first project", projects.projects[0].id)
-      router.push(`/new-dashboard/${projects.projects[0].id}`)
+      router.push(`/dashboard/${projects.projects[0].id}`)
     }
     if (!projects.loading && projects.projects && projects.projects.length == 0)
       setAddDialogOpen(true)
   }, [projects.loading, projects.projects, router, currentproject])
 
-    return (
-        <div className='flex flex-col gap-4 border-b bg-sidebar px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between'>
-            <div className='flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:w-auto'>
-                {currentproject &&  <Select
-                    value={currentproject || undefined}
-                    onValueChange={(value) => {
-                        router.push(`/new-dashboard/${value}`);
-                    }}
-                >
-                    <SelectTrigger className="h-10! w-full sm:w-[240px]">
-                        <SelectValue placeholder="Select a project" />
-                    </SelectTrigger>
-                    <SelectContent position='popper' className='p-1'>
-                        {projects.projects.map((project) => (
-                            <SelectItem className='p-2' key={project.id} value={project.id}>{project.name}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>}
-                {currentproject && <Dialog open={settingDialogOpen} onOpenChange={setSettingDialogOpen}>
-                    <DialogTrigger asChild>
-                        <Button variant={"outline"} className='h-10 w-full rounded-lg px-4 sm:w-auto'>
-                            <Settings className='h-5 w-5' /> Edit project
-                        </Button>
-                    </DialogTrigger>
-                    <EditProjectDialog
-                        project={projects.projects.find((p) => p.id === currentproject) || null}
-                        updateProject={projects.updateProject}
-                        deleteProject={projects.deleteProject}
-                        onClose={() => setSettingDialogOpen(false)}
-                    />
-                </Dialog>}
+  return (
+    <div className='flex flex-col gap-4 border-b bg-sidebar px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between'>
+      <div className='flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:w-auto'>
+        {currentproject && <Select
+          value={currentproject || undefined}
+          onValueChange={(value) => {
+            router.push(`/dashboard/${value}`);
+          }}
+        >
+          <SelectTrigger className="h-10! w-full sm:w-[240px]">
+            <SelectValue placeholder="Select a project" />
+          </SelectTrigger>
+          <SelectContent position='popper' className='p-1'>
+            {projects.projects.map((project) => (
+              <SelectItem className='p-2' key={project.id} value={project.id}>{project.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>}
+        {currentproject && <Dialog open={settingDialogOpen} onOpenChange={setSettingDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant={"outline"} className='h-10 w-full rounded-lg px-4 sm:w-auto'>
+              <Settings className='h-5 w-5' /> Edit project
+            </Button>
+          </DialogTrigger>
+          <EditProjectDialog
+            project={projects.projects.find((p) => p.id === currentproject) || null}
+            updateProject={projects.updateProject}
+            deleteProject={projects.deleteProject}
+            onClose={() => setSettingDialogOpen(false)}
+          />
+        </Dialog>}
 
         <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
           <DialogTrigger asChild>

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import axios from "axios"
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const searchParams = useSearchParams()
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -164,5 +164,13 @@ export default function ResetPasswordPage() {
         </form>
       </AuthCard>
     </main>
+  )
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <React.Suspense fallback={null}>
+      <ResetPasswordContent />
+    </React.Suspense>
   )
 }

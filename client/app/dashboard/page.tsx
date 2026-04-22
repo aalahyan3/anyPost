@@ -1,37 +1,46 @@
 "use client"
 
-import { useUser } from "@/context/user-provider"
+import { Button } from '@/components/ui/button';
+import { useProjects } from '@/context/projects-provider';
+import { useUser } from '@/context/user-provider'
+import { Plus, PlusCircle, PlusSquare, Settings, Waves } from 'lucide-react';
+import React, { useEffect } from 'react'
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import HelloImg from "@/public/hello.png"
 
-export default function DashboardPage() {
-  const { user } = useUser()
+function NewDashboard() {
+    const { user } = useUser();
+    const router = useRouter();
+    const { projects } = useProjects();
 
-  return (
-    <div className="flex flex-1 flex-col gap-6 p-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Welcome back{user?.name ? `, ${user.name}` : ""}
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Here&apos;s what&apos;s going on in your workspace.
-        </p>
-      </div>
+    return (
+        <div className='p-6 min-h-[60vh] flex flex-col items-center justify-center space-y-6'>
+            <div className='text-center space-y-2 '>
+                <div className='w-fit mx-auto'>
+                    <Image src={HelloImg} alt='hello' width={80} height={80} />
+                </div>
+                <h1 className='text-2xl font-bold tracking-tight'>
+                    Hello {user?.name || 'there'}!
+                </h1>
+                <p className='text-muted-foreground text-lg'>
+                    Welcome to anyPost. Please create your first project to get started.
+                </p>
+            </div>
 
-      {/* Stat cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {[
-          { label: "Total Projects", value: 0 },
-          { label: "Active Forms", value: 0 },
-          { label: "Total Submissions", value: 0 },
-        ].map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col gap-1"
-          >
-            <span className="text-sm text-muted-foreground">{stat.label}</span>
-            <span className="text-3xl font-semibold">{stat.value}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
+            <div className='flex items-center gap-4 '>
+                <Button onClick={
+                    () => {
+                        document.getElementById('CreateProjectDialogTrigger')?.click();
+                    }
+                } className='flex items-center gap-2 p-6 rounded-xl'>
+                    <PlusCircle className='w-4 h-4' />
+                    Create Project
+                </Button>
+
+            </div>
+        </div>
+    )
 }
+
+export default NewDashboard

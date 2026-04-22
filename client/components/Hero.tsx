@@ -47,7 +47,7 @@ function Hero() {
             Read docs
           </Button>
           <Button className="h-10 gap-2 rounded-xl  p-6 text-sm" asChild>
-            <Link href={"/new-dashboard"}>
+            <Link href={"/dashboard"}>
 
               Get started
               <ArrowRight className="h-6 w-6" />

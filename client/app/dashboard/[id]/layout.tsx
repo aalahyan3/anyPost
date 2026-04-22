@@ -18,7 +18,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
         if (!loading && projects) {
             const project = projects.find((p) => p.id === id);
             if (!project) {
-                router.push('/new-dashboard');
+                router.push('/dashboard');
             }
         }
     }, [id, projects, loading, router])

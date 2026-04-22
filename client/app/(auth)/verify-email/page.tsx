@@ -5,7 +5,7 @@ import axios from "axios"
 import { ArrowLeft, CheckCircle, Clock, Loader2, MailCheck, RotateCcw, XCircle } from "lucide-react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 
 export function AuthCard({
   icon,
@@ -141,7 +141,7 @@ function SessionExpired() {
   )
 }
 
-export default function VerifyEmailClient() {
+function VerifyEmailContent() {
   const searchParams = useSearchParams()
   const token = searchParams.get("token")
   const type = searchParams.get("type")
@@ -156,5 +156,13 @@ export default function VerifyEmailClient() {
         <SessionExpired />
       )}
     </main>
+  )
+}
+
+export default function VerifyEmailClient() {
+  return (
+    <Suspense fallback={null}>
+      <VerifyEmailContent />
+    </Suspense>
   )
 }

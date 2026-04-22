@@ -5,7 +5,7 @@ import { Button } from './ui/button'
 
 const links = [
   { label: 'Login', href: '/login' },
-  { label: 'Create Project', href: '/new-dashboard' },
+  { label: 'Create Project', href: '/dashboard' },
   { label: 'Contribute', href: 'https://github.com/aalahyan3/anyPost' },
   { label: 'Docs', href: '#' }
 ]
@@ -37,7 +37,7 @@ function Footer() {
         {/* CTA button */}
         <Button asChild className='p-6! rounded-xl' >
           <Link
-            href="/new-dashboard"
+            href="/dashboard"
             className="group inline-flex items-center gap-2 rounded-full border border-[#f5f0e8]/15 bg-[#f5f0e8]/[0.06] px-5 py-2.5 text-sm font-medium text-[#f5f0e8] transition-colors hover:border-[#f5f0e8]/30 hover:bg-[#f5f0e8]/10"
           >
             Start for free
@@ -68,7 +68,7 @@ function Footer() {
           </div>
 
           <div className=' md:p-6 md:px-16'>
-          
+
             <ul className="flex flex-col gap-2.5">
               {links.map((link) => (
                 <li key={link.label}>

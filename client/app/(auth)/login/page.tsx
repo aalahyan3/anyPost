@@ -1,6 +1,6 @@
 import LoginForm from '@/components/LoginForm'
 import Link from 'next/link'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 function page() {
   return (
@@ -16,7 +16,9 @@ function page() {
           <p className='text-sm text-muted-foreground'>Sign in to your AnyPost account</p>
         </div>
 
-        <LoginForm />
+        <Suspense fallback={null}>
+          <LoginForm />
+        </Suspense>
 
         <div className='mt-6 text-center text-sm text-muted-foreground'>
           <span>Don&apos;t have an account? </span>
