@@ -5,6 +5,7 @@ import React, { useState } from "react"
 import { AuthCard } from "../verify-email/page"
 import { Lock, RotateCcw, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { api } from "@/app/lib/api"
 import Link from "next/link"
 import axios from "axios"
 
@@ -37,13 +38,10 @@ function ResetPasswordContent() {
     setMessage("")
 
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/reset-password`,
-        {
-          token,
-          new_password: password,
-        }
-      )
+      const res = await api.post(`/v1/auth/reset-password`, {
+        token,
+        new_password: password,
+      })
 
       if (res.status === 200) {
         setMessage(

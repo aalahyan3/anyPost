@@ -1,6 +1,6 @@
 "use server"
 
-import axios from "axios";
+import { api } from "@/app/lib/api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -21,7 +21,7 @@ export async function login(prevState: LoginState | undefined, data: FormData): 
     }
 
     try {
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/signin`, {
+        const res = await api.post(`/v1/auth/signin`, {
             email,
             password
         });
@@ -41,7 +41,10 @@ export async function login(prevState: LoginState | undefined, data: FormData): 
                     value: tokenValue,
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'strict',
+                    // use 'lax' so the cookie is sent on top-level navigations and cross-port requests
+                    sameSite: 'lax',
+                    // ensure cookie is valid for localhost domain so it is sent to :8080 as well
+                    domain: 'localhost',
                     path: '/',
                     maxAge: 60 * 60 * 24 
                 });

@@ -69,7 +69,7 @@ export default function FormDetailPage({
 
     setLoading(true)
     api
-      .get(`/api/v1/projects/${id}/forms/${formId}`)
+      .get(`/v1/projects/${id}/forms/${formId}`)
       .then((res) => {
         if (!mounted) return
         setForm(res.data?.data ?? res.data)
@@ -100,7 +100,7 @@ export default function FormDetailPage({
     setDeleting(true)
     setDeleteError(null)
     try {
-      await api.delete(`/api/v1/projects/${id}/forms/${formId}`)
+      await api.delete(`/v1/projects/${id}/forms/${formId}`)
       setGlobalForm(null)
       refreshForms()
     } catch (err: any) {

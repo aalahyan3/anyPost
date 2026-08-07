@@ -1,7 +1,7 @@
 "use client"
 
 
-import axios from 'axios'
+import { api } from '@/app/lib/api'
 import { ServerCrash } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 
@@ -12,7 +12,7 @@ function ServerAvailabilityNotice() {
     let mounted = true
     const check = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/health`)
+        const res = await api.get(`/v1/health`)
         if (!mounted) return
         setAvailable(res.status === 200)
       } catch (e) {

@@ -93,16 +93,16 @@ public class AuthenticationController {
         }
         
         User newUser = User.builder()
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
-                .name(request.name())
-                .build();
-        
+            .email(request.email())
+            .password(passwordEncoder.encode(request.password()))
+            .name(request.name())
+            .enabled(true)
+            .build();
+
         User savedUser = userRepository.save(newUser);
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(savedUser));
-        
+
         return ResponseEntity.status(201)
-                .body(ApiResponse.success("Account created. Please check your email to verify your account.", null));
+            .body(ApiResponse.success("Account created.", null));
     }
 
 

@@ -1,6 +1,6 @@
 "use server"
 
-import axios from "axios";
+import { api } from "@/app/lib/api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -31,7 +31,7 @@ export async function signup(prevState: LoginState | undefined, data: FormData):
     }
 
     try {
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/signup`, {
+        const res = await api.post(`/v1/auth/signup`, {
             email,
             password,
             name

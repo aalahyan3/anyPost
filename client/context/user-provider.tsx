@@ -29,8 +29,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const fetchUser = useCallback(async () => {
     try {
       setLoading(true);
-      // Adjust endpoint if expected e.g. /api/v1/auth/me
-      const res = await api.get("/api/v1/auth/whoami");
+      // Adjust endpoint if expected e.g. /v1/auth/whoami
+      const res = await api.get("/v1/auth/whoami");
       
       if (res.data) {
         setUser(res.data.data);

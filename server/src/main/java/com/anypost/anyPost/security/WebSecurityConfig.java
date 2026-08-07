@@ -67,11 +67,11 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-
-        // TODO frontend URL
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        // Allowed origins: include the nginx proxy (localhost:8080) and dev frontend (localhost:3000)
+        configuration.setAllowedOrigins(List.of("http://localhost:8080", "http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+        configuration.setAllowedHeaders(Arrays.asList("Origin", "Accept", "Content-Type", "Authorization", "X-Requested-With", "Cookie"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Set-Cookie"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -34,7 +34,7 @@ export function SubmissionsOverview({
     setError(null)
 
     api
-      .get(`/api/v1/projects/${projectId}/forms/${formId}/submissions/metadata`)
+      .get(`/v1/projects/${projectId}/forms/${formId}/submissions/metadata`)
       .then((res) => {
         if (!mounted) return
         setMetadata(res.data?.data ?? res.data)
@@ -72,7 +72,7 @@ export function SubmissionsOverview({
     setExporting(true)
     try {
       const res = await api.get(
-        `/api/v1/projects/${projectId}/forms/${formId}/submissions/export`,
+        `/v1/projects/${projectId}/forms/${formId}/submissions/export`,
         { responseType: "blob" }
       )
       const blob = new Blob([res.data], { type: "text/csv;charset=utf-8;" })

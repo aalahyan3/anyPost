@@ -1,8 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import axios from "axios"
-import { ArrowLeft, CheckCircle, Clock, Loader2, MailCheck, RotateCcw, XCircle } from "lucide-react"
+import { api } from "@/app/lib/api"
+import { ArrowLeft, CheckCircle, Clock, Loader2, MailCheck, RotateCcw, XCircle, Check } from "lucide-react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
@@ -39,19 +39,19 @@ export function AuthCard({
 function Notify() {
   return (
     <AuthCard
-      icon={<MailCheck className="h-6 w-6 text-primary" />}
+      icon={<Check className="h-6 w-6 text-primary" />}
       iconBg="bg-primary/10"
-      title="Check your email"
-      description="We sent a verification link to your email address. Click the link to verify. Don't forget to check your spam folder if you can't find it."
+      title="Account has been created"
+      description="you can go back and login with your credentials"
     >
       <Button asChild className="w-full">
         <Link href="/login">
           <ArrowLeft className="h-4 w-4" /> Back to login
         </Link>
       </Button>
-      <Button disabled variant="outline" className="w-full">
+      {/* <Button disabled variant="outline" className="w-full">
         <RotateCcw className="h-4 w-4" /> Didn't receive it? Resend email
-      </Button>
+      </Button> */}
     </AuthCard>
   )
 }
@@ -63,10 +63,7 @@ function Verify({ token }: { token: string }) {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/verify`,
-          { token }
-        )
+        const res = await api.post(`/v1/auth/verify`, { token })
         setStatus(res.status === 200 ? "success" : "error")
         setInfo(res.data.message || "")
       } catch (error: any) {

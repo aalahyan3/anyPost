@@ -19,7 +19,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    api.get("/api/v1/projects")
+    api.get("/v1/projects")
       .then((res) => {
         const list: ProjectType[] = res.data.data ?? res.data
         setProjects(Array.isArray(list) ? list : [])
@@ -29,21 +29,21 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const addProject = async (name: string): Promise<ProjectType> => {
-    const res = await api.post("/api/v1/projects", { name })
+    const res = await api.post("/v1/projects", { name })
     const created: ProjectType = res.data.data
     setProjects((prev) => [...prev, created])
     return created
   }
 
   const updateProject = async (id: string, updates: { name?: string, active?: boolean }): Promise<ProjectType> => {
-    const res = await api.put(`/api/v1/projects/${id}`, updates)
+    const res = await api.put(`/v1/projects/${id}`, updates)
     const updated: ProjectType = res.data.data
     setProjects((prev) => prev.map((p) => (p.id === id ? updated : p)))
     return updated
   }
 
   const deleteProject = async (id: string): Promise<void> => {
-    await api.delete(`/api/v1/projects/${id}`)
+    await api.delete(`/v1/projects/${id}`)
     setProjects((prev) => prev.filter((p) => p.id !== id))
   }
 

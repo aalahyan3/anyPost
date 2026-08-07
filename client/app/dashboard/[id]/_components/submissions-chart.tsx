@@ -25,7 +25,7 @@ export function SubmissionsChart({ projectId, formId }: { projectId: string; for
     let mounted = true
     setLoading(true)
 
-    api.get(`/api/v1/projects/${projectId}/forms/${formId}/submissions/trend`)
+    api.get(`/v1/projects/${projectId}/forms/${formId}/submissions/trend`)
       .then((res) => {
         if (!mounted) return
         setTrend(res.data?.data ?? res.data)

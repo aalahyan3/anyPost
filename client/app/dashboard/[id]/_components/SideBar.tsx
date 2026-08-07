@@ -30,7 +30,7 @@ function SideBar({
     setLoading(true)
     setError(null)
     api
-      .get(`/api/v1/projects/${projectId}/forms`)
+      .get(`/v1/projects/${projectId}/forms`)
       .then((res) => {
         const list: FormType[] = res.data?.data ?? res.data ?? []
         setForms(Array.isArray(list) ? list : [])

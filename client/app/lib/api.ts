@@ -1,8 +1,15 @@
 import axios from 'axios';
 
-// 1. Create your instance (same as before)
+const isServer = typeof window === 'undefined';
+
+// On the server (Next.js Server Actions) we need an absolute URL that resolves inside the
+// Docker network; use `http://server:8080/api` as a sensible default. Browser clients should use
+// a relative `/api` path so requests go through the reverse proxy on the same origin.
+const serverBase = process.env.NEXT_PUBLIC_BACKEND_URL_SERVER || 'http://server:8080/api';
+const clientBase = process.env.NEXT_PUBLIC_BACKEND_URL || '/api';
+
 export const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080',
+    baseURL: isServer ? serverBase : clientBase,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',

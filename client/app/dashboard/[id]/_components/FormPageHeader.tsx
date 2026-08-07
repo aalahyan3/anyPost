@@ -43,7 +43,7 @@ function EditModal({form, onSuccess}: {form: FormType, onSuccess: (updatedForm?:
         setError(null)
         try {
           // NOTE: Using fallback pathing if your backend route differs slightly.
-          const res = await api.patch(`/api/v1/projects/${form.projectId}/forms/${form.id}`, {
+          const res = await api.patch(`/v1/projects/${form.projectId}/forms/${form.id}`, {
             name: trimmed,
             active: active,
           })

@@ -89,7 +89,7 @@ export function SubmissionsTable({
   async function handleSelectionDeletion() {
     try {
       setDeleting(true)
-      await api.delete(`/api/v1/projects/${projectId}/forms/${formId}/submissions`, {
+      await api.delete(`/v1/projects/${projectId}/forms/${formId}/submissions`, {
         data: {
           ids: selectedSubmissions
         }
@@ -123,7 +123,7 @@ export function SubmissionsTable({
     setError(null)
 
     api
-      .get(`/api/v1/projects/${projectId}/forms/${formId}/submissions?size=${pageSize}&page=${page}&sort=${orderDir}`)
+      .get(`/v1/projects/${projectId}/forms/${formId}/submissions?size=${pageSize}&page=${page}&sort=${orderDir}`)
       .then((res) => {
         if (!mounted) return
 

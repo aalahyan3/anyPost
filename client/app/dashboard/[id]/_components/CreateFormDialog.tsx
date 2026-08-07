@@ -35,7 +35,7 @@ function CreateFormDialog({ projectId, onSuccess }: { projectId: string; onSucce
     }
 
     try {
-      const res = await api.post(`/api/v1/projects/${projectId}/forms`, {
+      const res = await api.post(`/v1/projects/${projectId}/forms`, {
         name: name.trim(),
       });
       toast.success("Form created successfully");

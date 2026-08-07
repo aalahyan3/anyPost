@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:6.0
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    environment:
+      - MONGODB_URL=${MONGODB_URL:-mongodb://mongo:27017/anypost}
+      - JWT_SECRET=${JWT_SECRET:-b9f6c3a6d3e04f7692a0b1c8d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4}
+      - RESEND_API_KEY=${RESEND_API_KEY:-dev-resend-key}
+    depends_on:
+      - mongo
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-/api}
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-/api}
+      - NEXT_PUBLIC_BACKEND_URL_SERVER=${NEXT_PUBLIC_BACKEND_URL_SERVER:-http://server:8080/api}
+    depends_on:
+      - server
+
+  nginx:
+    image: nginx:stable
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - client
+      - server
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  mongo_data:

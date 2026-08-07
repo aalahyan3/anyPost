@@ -66,7 +66,7 @@ function IntegrationInstructions({ formId }: { formId: string }) {
                 <div className="flex items-center gap-2">
                   <code className="flex-1 overflow-auto rounded-lg border bg-muted/50 px-3 py-2.5 font-mono text-sm">
                     <span className="mr-2 font-semibold text-emerald-500">
-                      POST
+                      POST (this is temporary)
                     </span>
                     https://anypost.com/f/{formId}
                   </code>

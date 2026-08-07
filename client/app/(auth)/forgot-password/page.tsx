@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import axios from "axios"
+import { api } from "@/app/lib/api"
 import Link from "next/link"
 import React, { useState } from "react"
 
@@ -16,10 +16,7 @@ export default function ForgotPasswordPage() {
     setMessage("")
 
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/forgot-password`,
-        { email }
-      )
+      await api.post(`/v1/auth/forgot-password`, { email })
     } catch (err) {
     } finally {
       setMessage(
