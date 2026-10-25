@@ -1,4 +1,4 @@
-version: '3.8'
+
 services:
   mongo:
     image: mongo:6.0
@@ -16,6 +16,7 @@ services:
       - MONGODB_URL=${MONGODB_URL:-mongodb://mongo:27017/anypost}
       - JWT_SECRET=${JWT_SECRET:-b9f6c3a6d3e04f7692a0b1c8d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4}
       - RESEND_API_KEY=${RESEND_API_KEY:-dev-resend-key}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:8080,http://localhost:3000}
     depends_on:
       - mongo
 
@@ -28,6 +29,11 @@ services:
     environment:
       - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-/api}
       - NEXT_PUBLIC_BACKEND_URL_SERVER=${NEXT_PUBLIC_BACKEND_URL_SERVER:-http://server:8080/api}
+      # Leave empty to auto-detect from X-Forwarded-Proto; set to true when TLS terminates before nginx
+      - COOKIE_SECURE=${COOKIE_SECURE:-}
+      # Base URL shown in form integration snippets (from HOSTNAME in .env); empty = the dashboard's own origin.
+      # Passed as APP_HOSTNAME because Docker sets HOSTNAME to the container id.
+      - APP_HOSTNAME=${HOSTNAME:-}
     depends_on:
       - server
 

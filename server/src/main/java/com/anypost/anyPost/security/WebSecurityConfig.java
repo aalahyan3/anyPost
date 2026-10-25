@@ -1,6 +1,7 @@
 package com.anypost.anyPost.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,6 +31,9 @@ public class WebSecurityConfig {
 
     @Autowired
     private AuthEntryPoint unauthorizedHandler;
+
+    @Value("${app.cors.allowed-origins}")
+    private List<String> allowedOrigins;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -67,13 +71,23 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Allowed origins: include the nginx proxy (localhost:8080) and dev frontend (localhost:3000)
-        configuration.setAllowedOrigins(List.of("http://localhost:8080", "http://localhost:3000"));
+        // Requests through nginx are same-origin; this list only matters for frontends served from another origin
+        configuration.setAllowedOriginPatterns(allowedOrigins);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Origin", "Accept", "Content-Type", "Authorization", "X-Requested-With", "Cookie"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Set-Cookie"));
         configuration.setAllowCredentials(true);
+
+        // Public form submissions are posted from users' own sites, so accept any origin (no cookies)
+        CorsConfiguration submissionConfiguration = new CorsConfiguration();
+        submissionConfiguration.setAllowedOriginPatterns(List.of("*"));
+        submissionConfiguration.setAllowedMethods(Arrays.asList("POST", "OPTIONS"));
+        submissionConfiguration.setAllowedHeaders(List.of("*"));
+        submissionConfiguration.setAllowCredentials(false);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // Registration order matters: the first matching pattern wins
+        source.registerCorsConfiguration("/f/**", submissionConfiguration);
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
