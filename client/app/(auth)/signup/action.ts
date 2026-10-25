@@ -2,6 +2,7 @@
 
 import { api } from "@/app/lib/api";
 import { cookies } from "next/headers";
+import { shouldUseSecureCookie } from "@/app/lib/cookies";
 import { redirect } from "next/navigation";
 
 export type LoginState = {
@@ -51,7 +52,7 @@ export async function signup(prevState: LoginState | undefined, data: FormData):
                     name: 'jwt',
                     value: tokenValue,
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production',
+                    secure: await shouldUseSecureCookie(),
                     sameSite: 'strict',
                     path: '/',
                     maxAge: 60 * 60 * 24 

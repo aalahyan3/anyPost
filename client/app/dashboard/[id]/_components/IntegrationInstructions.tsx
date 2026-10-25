@@ -1,11 +1,22 @@
 "use client"
 import { Check, ChevronDown, Copy, Plug } from 'lucide-react'
 import React from 'react'
+import { getPublicHostname } from '@/app/actions/hostname'
 
 function IntegrationInstructions({ formId }: { formId: string }) {
     const [integrationOpen, setIntegrationOpen] = React.useState(false)
     const [activeTab, setActiveTab] = React.useState<"react" | "html">("react")
     const [copied, setCopied] = React.useState<"url" | "react" | "html" | null>(null);
+    const [baseUrl, setBaseUrl] = React.useState("");
+
+    React.useEffect(() => {
+        // Fall back to the current origin; nginx routes /f/ to the backend
+        getPublicHostname()
+            .then((hostname) => setBaseUrl(hostname ?? window.location.origin))
+            .catch(() => setBaseUrl(window.location.origin))
+    }, [])
+
+    const endpoint = `${baseUrl}/f/${formId}`
 
 
     const handleCopy = (text: string, type: "url" | "react" | "html") => {
@@ -68,11 +79,11 @@ function IntegrationInstructions({ formId }: { formId: string }) {
                     <span className="mr-2 font-semibold text-emerald-500">
                       POST (this is temporary)
                     </span>
-                    https://anypost.com/f/{formId}
+                    {endpoint}
                   </code>
                   <button
                     onClick={() =>
-                      handleCopy(`https://anypost.com/f/${formId}`, "url")
+                      handleCopy(endpoint, "url")
                     }
                     className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border bg-background transition-colors hover:bg-muted"
                     title="Copy URL"
@@ -118,12 +129,12 @@ function IntegrationInstructions({ formId }: { formId: string }) {
                     onClick={() => {
                       if (activeTab === "react") {
                         handleCopy(
-                          `const response = await fetch("https://anypost.com/f/${formId}", {\n  method: "POST",\n  headers: { "Content-Type": "application/json" },\n  body: JSON.stringify({ email: "user@example.com", message: "Hello!" })\n});`,
+                          `const response = await fetch("${endpoint}", {\n  method: "POST",\n  headers: { "Content-Type": "application/json" },\n  body: JSON.stringify({ email: "user@example.com", message: "Hello!" })\n});`,
                           "react"
                         )
                       } else {
                         handleCopy(
-                          `<form action="https://anypost.com/f/${formId}" method="POST">\n  <input type="email" name="email" placeholder="Your Email" />\n  <textarea name="message" placeholder="Your Message"></textarea>\n  <button type="submit">Submit</button>\n</form>`,
+                          `<form action="${endpoint}" method="POST">\n  <input type="email" name="email" placeholder="Your Email" />\n  <textarea name="message" placeholder="Your Message"></textarea>\n  <button type="submit">Submit</button>\n</form>`,
                           "html"
                         )
                       }
@@ -148,7 +159,7 @@ function IntegrationInstructions({ formId }: { formId: string }) {
                       <span className="text-purple-400">=</span>{" "}
                       <span className="text-purple-400">await</span>{" "}
                       <span className="text-emerald-300">
-                        &quot;https://anypost.com/f/{formId}&quot;
+                        &quot;{endpoint}&quot;
                       </span>
                       , {"{"}
                       {"\n"} <span className="text-zinc-400">method:</span>{" "}
@@ -185,7 +196,7 @@ function IntegrationInstructions({ formId }: { formId: string }) {
                       <span className="text-purple-300">action</span>
                       <span className="text-zinc-400">=</span>
                       <span className="text-emerald-300">
-                        &quot;https://anypost.com/f/{formId}&quot;
+                        &quot;{endpoint}&quot;
                       </span>{" "}
                       <span className="text-purple-300">method</span>
                       <span className="text-zinc-400">=</span>

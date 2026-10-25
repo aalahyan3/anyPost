@@ -2,6 +2,7 @@
 
 import { api } from "@/app/lib/api";
 import { cookies } from "next/headers";
+import { shouldUseSecureCookie } from "@/app/lib/cookies";
 import { redirect } from "next/navigation";
 
 export type LoginState = {
@@ -40,11 +41,9 @@ export async function login(prevState: LoginState | undefined, data: FormData): 
                     name: 'jwt',
                     value: tokenValue,
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production',
+                    secure: await shouldUseSecureCookie(),
                     // use 'lax' so the cookie is sent on top-level navigations and cross-port requests
                     sameSite: 'lax',
-                    // ensure cookie is valid for localhost domain so it is sent to :8080 as well
-                    domain: 'localhost',
                     path: '/',
                     maxAge: 60 * 60 * 24 
                 });
