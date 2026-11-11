@@ -17,4 +17,9 @@ A developer builds a website, mobile app, or even a CLI and needs to collect use
 - **Advanced Submissions Table:** Features a robust filtering system and built-in pagination for easy data management, and of course data can be exported as csv.
 
 ### How to run
-Comming soon
+```
+docker compose up --d -build
+```
+then head to http://localhost:8080
+
+Note: Ideally use your own env variables : see `.env.example`
